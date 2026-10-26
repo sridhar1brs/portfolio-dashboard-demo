@@ -1,0 +1,33 @@
+Lot ID,Owner,Broker,Tag1
+DEMO-STK-01,Primary Account,Zerodha,Core Compounder
+DEMO-STK-02,Primary Account,Zerodha,IT Services
+DEMO-STK-03,Primary Account,Zerodha,Core Banking
+DEMO-STK-04,Primary Account,Groww,Core Banking
+DEMO-STK-05,Primary Account,Zerodha,IT Services
+DEMO-STK-06,Primary Account,Zerodha,FMCG
+DEMO-STK-07,Primary Account,Groww,Infra & Defense
+DEMO-STK-08,Primary Account,Zerodha,Automobile
+DEMO-STK-09,Primary Account,Groww,Pharma
+DEMO-STK-10,Primary Account,Zerodha,Consumer Retail
+DEMO-STK-11,Secondary Account,Zerodha,High Growth
+DEMO-STK-12,Secondary Account,Zerodha,Capital Goods
+DEMO-STK-13,Secondary Account,Groww,Midcap Tech
+DEMO-STK-14,Secondary Account,Groww,Capital Markets
+DEMO-STK-15,Secondary Account,Zerodha,EMS / Electronics
+DEMO-US-01,Primary Account,Interactive Brokers,Big Tech
+DEMO-US-02,Primary Account,Interactive Brokers,Big Tech / AI
+DEMO-US-03,Primary Account,Interactive Brokers,AI Infrastructure
+DEMO-US-04,Primary Account,Interactive Brokers,Cloud & Search
+DEMO-MF-01,Primary Account,Groww,Active Equity
+DEMO-MF-02,Primary Account,Groww,Passive Index
+DEMO-MF-03,Secondary Account,Groww,Alpha Small Cap
+DEMO-MF-04,Primary Account,Zerodha,Emergency Liquid
+DEMO-BOND-01,Primary Account,Zerodha,Sovereign Debt
+DEMO-BOND-02,Secondary Account,Groww,Corporate Yield
+DEMO-BOND-03,Secondary Account,Groww,High Yield NCD
+DEMO-REIT-01,Primary Account,Zerodha,Commercial Real Estate
+DEMO-REIT-02,Secondary Account,Groww,Commercial Real Estate
+DEMO-INVIT-01,Primary Account,Zerodha,Grid Infrastructure
+DEMO-ETF-01,Primary Account,Zerodha,Inflation Hedge
+DEMO-ETF-02,Primary Account,Zerodha,Core Index
+DEMO-ETF-03,Primary Account,Groww,US Tech Index

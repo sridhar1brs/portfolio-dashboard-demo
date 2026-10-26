@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian Wealth OS | Intelligent Mixed Indian & US Portfolio Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-obsidian density-dense">
+  <!-- Top Navigation & Executive Header -->
+  <header class="meridian-header">
+    <div class="header-top">
+      <div class="brand-group">
+        <div class="brand-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <span class="brand-name">MERIDIAN</span>
+            <span class="brand-edition">WEALTH OS</span>
+            <span class="badge-live-pulse"><span class="pulse-dot"></span> LIVE ENGINE</span>
+          </div>
+          <span class="brand-subtitle">Mixed Indian & US Sovereign Portfolio Command Center</span>
+        </div>
+      </div>
+
+      <div class="header-meta-group">
+        <div class="meta-pill" title="As-of date of underlying holding ledger">
+          <span class="meta-label">As-Of Date</span>
+          <span class="meta-val" id="metaAsOf">14-09-2026</span>
+        </div>
+        <div class="meta-pill" title="Last successful live market price synchronization">
+          <span class="meta-label">Sync Status</span>
+          <span class="meta-val sync-val" id="lastSyncBadge">Last Sync: Not synced yet</span>
+        </div>
+        <div class="meta-pill" title="Official quote timestamps for NSE & US Exchanges">
+          <span class="meta-label">Market Quote</span>
+          <span class="meta-val" id="metaQuoteTime">14-Sep 15:30 IST / 10:00 EST</span>
+        </div>
+        <div class="meta-pill" title="Last generated multi-sheet Excel export">
+          <span class="meta-label">Export Audit</span>
+          <span class="meta-val" id="lastExportBadge">Not exported yet</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- View Density Selector -->
+        <div class="density-toggle" id="densityToggle">
+          <button class="density-btn" data-density="executive">Executive</button>
+          <button class="density-btn active" data-density="dense">Dense</button>
+        </div>
+
+        <!-- Currency Mode Selector -->
+        <div class="currency-toggle" id="currencyToggle">
+          <button class="curr-btn active" data-currency="INR">INR (₹)</button>
+          <button class="curr-btn" data-currency="USD">USD ($)</button>
+          <button class="curr-btn" data-currency="DUAL">Dual</button>
+        </div>
+
+        <!-- Color Theme & Gain/Loss Palette Toggles -->
+        <div class="theme-palette-toggles">
+          <select id="selectThemeMode" class="header-select-pill" title="Visual Environment Theme">
+            <option value="midnight">🌙 Midnight Obsidian</option>
+            <option value="wealthlab">💎 WealthLab Dark</option>
+            <option value="wealthlab-light">✨ WealthLab Light</option>
+            <option value="slate">🔷 Sapphire Slate</option>
+            <option value="light">☀️ Classic Light</option>
+          </select>
+
+          <select id="selectPaletteMode" class="header-select-pill" title="Return Gain/Loss Palette">
+            <option value="standard">🟢/🔴 Standard</option>
+            <option value="colorblind">🔵/🟠 Colorblind</option>
+            <option value="monochrome">⚪ Monochrome</option>
+          </select>
+        </div>
+
+        <button class="action-btn btn-primary" id="btnOpenBuyModal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          <span>+ Add Buy</span>
+        </button>
+
+        <button class="action-btn btn-secondary" id="btnOpenSellModal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
+          <span>Sell Lot</span>
+        </button>
+
+        <button class="action-btn btn-outline" id="btnOpenExpensesModal" title="Self-tracking expenses (PMS, Algo platforms, VPS, API subscriptions)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span>💳 Expenses</span>
+        </button>
+
+        <button class="action-btn btn-accent" id="btnSyncPrices">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+          <span>Sync Quotes</span>
+        </button>
+
+        <button class="action-btn btn-outline" id="btnOpenUploadModal" title="Import holdings from CSV or Excel file">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Import Holdings</span>
+        </button>
+
+        <button class="action-btn btn-outline" id="btnExportExcel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Export Excel</span>
+        </button>
+
+        <button class="action-btn btn-outline" id="btnSystemHelp" title="System Architecture & Agentic Flow Guide">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>System Guide</span>
+        </button>
+
+        <button class="action-btn btn-outline" id="btnToggleInspector" title="Click to toggle Theme Inspector">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span id="inspectorBtnText">Inspect Theme</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unified Shared Multi-Dimensional Filter Rail -->
+    <div class="filter-command-rail">
+      <div class="filter-header-row">
+        <div class="filter-title-group">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          <span class="filter-title">Shared Portfolio Filters</span>
+          <span class="filter-active-counter" id="activeFilterCounter">All Holdings (152 Lots)</span>
+        </div>
+        <div class="filter-quick-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="filterSearchInput" placeholder="Filter by Symbol or Name...">
+        </div>
+        <button class="btn-clear-filters" id="btnClearFilters">Reset Filters</button>
+      </div>
+
+      <div class="filter-controls-grid">
+        <div class="filter-field">
+          <label>Advisor</label>
+          <select id="filterAdvisor" class="filter-select">
+            <option value="ALL">All Advisors</option>
+            <option value="Self-Directed">Self-Directed</option>
+            <option value="Wealth Advisor">Wealth Advisor</option>
+            <option value="Model Portfolio">Model Portfolio</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Broker / Account</label>
+          <select id="filterBroker" class="filter-select">
+            <option value="ALL">All Brokers</option>
+            <option value="Zerodha">Zerodha</option>
+            <option value="Groww">Groww</option>
+            <option value="Interactive Brokers">Interactive Brokers</option>
+            <option value="Charles Schwab">Charles Schwab (US)</option>
+            <option value="Kotak">Kotak Securities</option>
+            <option value="IndiaBonds">IndiaBonds</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Asset Type</label>
+          <select id="filterAssetType" class="filter-select">
+            <option value="ALL">All Asset Types</option>
+            <option value="Stocks">Indian Stocks</option>
+            <option value="US Stocks">US Stocks</option>
+            <option value="Mutual Fund">Mutual Funds</option>
+            <option value="ETF">ETFs</option>
+            <option value="REIT / InvIT">REITs & InvITs</option>
+            <option value="Bonds">Fixed Income / Bonds</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Custom Tag</label>
+          <select id="filterTag" class="filter-select">
+            <option value="ALL">All Tags</option>
+            <option value="Core">Core Compounder</option>
+            <option value="ShortTerm">Short-Term / Tactical</option>
+            <option value="PMS">PMS Managed</option>
+            <option value="Self">Self</option>
+            <option value="RSU">RSU</option>
+            <option value="ESPP">ESPP</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Sector</label>
+          <select id="filterSector" class="filter-select">
+            <option value="ALL">All Sectors</option>
+            <option value="Financial Services">Financial Services</option>
+            <option value="Technology">Technology</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Consumer Cyclical">Consumer Cyclical</option>
+            <option value="Basic Materials">Basic Materials</option>
+            <option value="Energy">Energy</option>
+            <option value="Industrials">Industrials</option>
+            <option value="Real Estate">Real Estate / Infrastructure</option>
+            <option value="Fixed Income - Bonds">Fixed Income - Bonds</option>
+            <option value="Liquid Fund">Liquid & Cash Equiv.</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Currency</label>
+          <select id="filterCurrency" class="filter-select">
+            <option value="ALL">All Currencies</option>
+            <option value="INR">INR Only</option>
+            <option value="USD">USD Only</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Filter Pills -->
+      <div class="active-pills-row" id="activePillsRow"></div>
+    </div>
+
+    <!-- Workspace Navigation Bar -->
+    <nav class="meridian-nav-tabs">
+      <button class="nav-tab active" data-target="workspaceOverview">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Executive Command</span>
+      </button>
+      <button class="nav-tab" data-target="workspaceHoldings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span>Holdings Matrix (<span id="tabHoldingsCount">152</span>)</span>
+      </button>
+      <button class="nav-tab" data-target="workspaceIncome">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+        <span>Income & Yield Hub</span>
+      </button>
+      <button class="nav-tab" data-target="workspaceLedger">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Ledger & Audit Vault</span>
+      </button>
+      <button class="nav-tab" data-target="workspaceHealth">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <span>Risk & Diagnostics</span>
+      </button>
+      <button class="nav-tab" data-target="workspaceAiReview">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>AI Intelligence & Review</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Viewports Container -->
+  <main class="meridian-main">
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 1: EXECUTIVE COMMAND (17 Analytical Cards) -->
+    <!-- ======================================================== -->
+    <section class="workspace-section active" id="workspaceOverview">
+      
+      <!-- CARD 1: Portfolio Summary KPI Strip -->
+      <div class="kpi-command-grid" id="cardPortfolioSummary">
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">TOTAL INVESTED</span>
+            <span class="kpi-sublabel">Capital Basis</span>
+          </div>
+          <div class="kpi-value font-mono" id="kpiInvested">₹0</div>
+          <div class="kpi-footer">
+            <span class="sub-metric" id="kpiLotsCount">152 Active Lots</span>
+            <span class="sub-detail">Across 2 Countries</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border accent-glow">
+          <div class="kpi-header">
+            <span class="kpi-label">CURRENT VALUE</span>
+            <span class="kpi-sublabel">Mark-to-Market</span>
+          </div>
+          <div class="kpi-value font-mono highlight-gold" id="kpiCurrentVal">₹0</div>
+          <div class="kpi-footer">
+            <span class="sub-metric font-mono" id="kpiDailyGain">Day: +₹0 (0.00%)</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">UNREALIZED ALPHA</span>
+            <span class="kpi-sublabel">Overall Return</span>
+          </div>
+          <div class="kpi-value font-mono" id="kpiUnrealizedGain">₹0</div>
+          <div class="kpi-footer">
+            <span class="pill-stat font-mono" id="kpiUnrealizedPct">+0.00%</span>
+            <span class="sub-detail">Active Book</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">PORTFOLIO CAGR</span>
+            <span class="kpi-sublabel">Annualized Compound</span>
+          </div>
+          <div class="kpi-value font-mono highlight-cyan" id="kpiCagr">18.42%</div>
+          <div class="kpi-footer">
+            <span class="sub-metric">Weighted by Lot Date</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">PORTFOLIO XIRR</span>
+            <span class="kpi-sublabel">Cash-Flow Adjusted</span>
+          </div>
+          <div class="kpi-value font-mono highlight-violet" id="kpiXirr">22.85%</div>
+          <div class="kpi-footer">
+            <span class="sub-disclosure" title="Calculated from dated buys, sells, dividends & distributions">* Complete flow</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">TOTAL INCOME TRACKED</span>
+            <span class="kpi-sublabel">Dividends + Yield</span>
+          </div>
+          <div class="kpi-value font-mono highlight-emerald" id="kpiTotalIncome">₹64,280</div>
+          <div class="kpi-footer">
+            <span class="sub-metric" id="kpiMonthlyIncome">Est. ₹5,356/mo</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel highlight-border">
+          <div class="kpi-header">
+            <span class="kpi-label">REALIZED GAINS</span>
+            <span class="kpi-sublabel">Closed/Partial Lots</span>
+          </div>
+          <div class="kpi-value font-mono" id="kpiRealizedGains">₹14,850</div>
+          <div class="kpi-footer">
+            <span class="sub-metric">Separated Tax Book</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW: Market Context (CARD 8) & AI Portfolio Review (CARD 15) -->
+      <div class="grid-2-col">
+        <!-- CARD 8: Market Context -->
+        <div class="card glass-panel" id="cardMarketContext">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <h3>Market Context & Benchmarks</h3>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge-subtle" id="marketContextBadge"><span class="ai-live-dot" style="display:inline-block; width:6px; height:6px; margin-right:4px;"></span>Live Feeds</span>
+              <button class="btn btn-ghost btn-sm" id="btnRefreshMarket" title="Refresh Live Benchmarks" style="padding: 3px 7px; height: 26px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="market-tickers-grid" id="marketTickersGrid">
+            <div class="ticker-box">
+              <span class="ticker-name">NIFTY 50</span>
+              <span class="ticker-price font-mono">23,118.60</span>
+              <span class="ticker-change font-mono negative">-312.90 (-1.34%)</span>
+              <span class="ticker-sub" style="color: #f59e0b; font-weight: 500;">Correction (-12.3%)</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">SENSEX</span>
+              <span class="ticker-price font-mono">74,003.82</span>
+              <span class="ticker-change font-mono negative">-760.41 (-1.02%)</span>
+              <span class="ticker-sub" style="color: #f59e0b; font-weight: 500;">Correction (-14.1%)</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">S&P 500</span>
+              <span class="ticker-price font-mono">7,619.98</span>
+              <span class="ticker-change font-mono negative">-98.62 (-1.28%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">-2.5% from 52W High</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">NASDAQ</span>
+              <span class="ticker-price font-mono">26,186.41</span>
+              <span class="ticker-change font-mono negative">-320.58 (-1.21%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">-3.7% from 52W High</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">USD / INR</span>
+              <span class="ticker-price font-mono">₹95.95</span>
+              <span class="ticker-change font-mono negative">+1.13 (+1.19%)</span>
+              <span class="ticker-sub" style="color: var(--accent-emerald);">Forex Benchmark</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">US 10Y TREASURY</span>
+              <span class="ticker-price font-mono">4.96%</span>
+              <span class="ticker-change font-mono neutral">+0.15 (+3.23%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">Sovereign Yield</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">INDIA VIX</span>
+              <span class="ticker-price font-mono">13.43</span>
+              <span class="ticker-change font-mono negative">+1.51 (+12.68%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">NSE Volatility</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">GOLD</span>
+              <span class="ticker-price font-mono">$4,321.20</span>
+              <span class="ticker-change font-mono negative">-43.30 (-0.99%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">Precious Metal</span>
+            </div>
+            <div class="ticker-box">
+              <span class="ticker-name">CRUDE OIL (WTI)</span>
+              <span class="ticker-price font-mono">$102.55</span>
+              <span class="ticker-change font-mono positive">+0.07 (+0.07%)</span>
+              <span class="ticker-sub" style="color: var(--text-muted);">Energy Benchmark</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 15: AI Portfolio Review -->
+        <div class="card glass-panel" id="cardAiReview">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              <h3>AI Portfolio Review & Health Intelligence</h3>
+            </div>
+            <span class="badge-ai-model">Autonomous Engine</span>
+          </div>
+          <div class="ai-review-content" id="aiReviewBody">
+            <ul class="ai-bullets">
+              <li><strong>Asset Diversification:</strong> Healthy multi-asset balance between Indian Equities (38%), US Equities (24%), Fixed Income (18%), and Real Estate/InvITs (20%).</li>
+              <li><strong>Currency Hedge:</strong> USD exposure via US Stocks provides a resilient macroeconomic buffer against INR currency depreciation.</li>
+              <li><strong>Income Engine:</strong> Monthly distribution run-rate of ~₹5,350 from InvITs, REITs, and Corporate Bonds provides steady non-equity cash flow.</li>
+              <li><strong>Concentration Advisory:</strong> Top 3 individual equity lots represent 26.4% of total equity book; consider trimming outperforming winners during quarterly rebalancing.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW: Category & Sector Distribution (CARD 2) & Market Cap Distribution (CARD 3) -->
+      <div class="grid-2-col">
+        <!-- CARD 2: Category & Sector Distribution with Micro Bars, Donut & Heatmap -->
+        <div class="card glass-panel" id="cardCategoryDistribution">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+              <h3>Category & Sector Distribution</h3>
+              <span class="badge-total" id="assetAllocTotalBadge" style="margin-left: 8px; font-size: 11px; padding: 2px 8px; border-radius: 9999px; background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);"></span>
+            </div>
+            <div class="segmented-pill-toggle">
+              <button class="pill-toggle-btn active" id="btnDistSectors">Sectors</button>
+              <button class="pill-toggle-btn" id="btnDistAsset">Asset Classes</button>
+              <button class="pill-toggle-btn" id="btnViewDonut" title="Donut Chart View">Donut</button>
+              <button class="pill-toggle-btn" id="btnViewTreemap" title="Heatmap View">Heatmap</button>
+            </div>
+          </div>
+          <!-- View 1: WealthLab Micro Progress Bars -->
+          <div class="distribution-card-wrap" id="distMicroBarsView">
+            <div id="distBarsContainer"></div>
+          </div>
+          <!-- View 2: Donut Chart -->
+          <div class="allocation-body" id="allocDonutView" style="display: none;">
+            <div class="donut-chart-wrap" id="assetDonutChart">
+              <!-- SVG Donut dynamically rendered -->
+            </div>
+            <div class="allocation-legend-table" id="assetLegendTable"></div>
+          </div>
+          <!-- View 3: Treemap Heatmap -->
+          <div class="treemap-heatmap-container" id="allocTreemapView" style="display: none;">
+            <div class="treemap-legend-row">
+              <span class="tm-legend-lbl">Color Scale:</span>
+              <span class="tm-chip c-deep-green">&gt;+3%</span>
+              <span class="tm-chip c-green">+1% to +3%</span>
+              <span class="tm-chip c-neutral">0% to +1%</span>
+              <span class="tm-chip c-rose">-1% to -3%</span>
+              <span class="tm-chip c-deep-rose">&lt;-3%</span>
+              <div class="tm-metric-switch">
+                <label><input type="radio" name="tmMetric" value="dayGain" checked> Day Gain</label>
+                <label><input type="radio" name="tmMetric" value="overallGain"> Overall Alpha</label>
+              </div>
+            </div>
+            <div class="treemap-grid" id="treemapGrid"></div>
+          </div>
+        </div>
+
+        <!-- CARD 3: Market Cap Distribution with Micro Bars -->
+        <div class="card glass-panel" id="cardMarketCapDistribution">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <h3>Market Cap Distribution</h3>
+              <span class="badge-subtle" id="marketCapCountBadge">156 Lots</span>
+            </div>
+            <div class="segmented-pill-toggle">
+              <button class="pill-toggle-btn active" id="btnCapAll">All Assets</button>
+              <button class="pill-toggle-btn" id="btnCapEquities">Equities Only</button>
+            </div>
+          </div>
+          <div class="distribution-card-wrap" id="marketCapBarsWrap">
+            <!-- Market cap bars dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW: Movers (CARDS 4, 5, 6, 7) -->
+      <div class="grid-4-col">
+        <!-- CARD 4: Daily Gainers -->
+        <div class="card glass-panel mini-card" id="cardDailyGainers">
+          <div class="card-header mini-header">
+            <span class="badge-pill gain-pill">▲ Top Daily Gainers</span>
+          </div>
+          <div class="movers-list" id="listDailyGainers"></div>
+        </div>
+
+        <!-- CARD 5: Daily Losers -->
+        <div class="card glass-panel mini-card" id="cardDailyLosers">
+          <div class="card-header mini-header">
+            <span class="badge-pill loss-pill">▼ Top Daily Losers</span>
+          </div>
+          <div class="movers-list" id="listDailyLosers"></div>
+        </div>
+
+        <!-- CARD 6: Overall Gainers -->
+        <div class="card glass-panel mini-card" id="cardOverallGainers">
+          <div class="card-header mini-header">
+            <span class="badge-pill gain-pill">★ Overall Gainers</span>
+          </div>
+          <div class="movers-list" id="listOverallGainers"></div>
+        </div>
+
+        <!-- CARD 7: Overall Losers -->
+        <div class="card glass-panel mini-card" id="cardOverallLosers">
+          <div class="card-header mini-header">
+            <span class="badge-pill loss-pill">⚠️ Overall Drawdowns</span>
+          </div>
+          <div class="movers-list" id="listOverallLosers"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Portfolio Health (CARD 9) & Portfolio Alerts (CARD 10) -->
+      <div class="grid-2-col">
+        <!-- CARD 9: Portfolio Health -->
+        <div class="card glass-panel" id="cardPortfolioHealth">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <h3>Portfolio Health & Risk Diagnostics</h3>
+            </div>
+            <span class="badge-health-score" id="overallHealthBadge">HEALTHY (84/100)</span>
+          </div>
+          <div class="health-metrics-grid">
+            <div class="health-metric-box">
+              <span class="health-lbl">HHI Concentration</span>
+              <span class="health-val font-mono" id="valHhi">0.082 (Low)</span>
+              <div class="health-progress-bar"><div class="bar-fill emerald" style="width: 28%"></div></div>
+              <span class="health-sub">Low concentration risk (&lt;0.15)</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="health-lbl">Liquidity Score</span>
+              <span class="health-val font-mono" id="valLiquidity">72% Liquid</span>
+              <div class="health-progress-bar"><div class="bar-fill cyan" style="width: 72%"></div></div>
+              <span class="health-sub">Available within 2 trading days</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="health-lbl">Income Visibility</span>
+              <span class="health-val font-mono" id="valIncomeVisibility">91% High</span>
+              <div class="health-progress-bar"><div class="bar-fill violet" style="width: 91%"></div></div>
+              <span class="health-sub">Contractual bonds & REIT distributions</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="health-lbl">Avg Holding Period</span>
+              <span class="health-val font-mono" id="valAvgHold">18.4 Months</span>
+              <div class="health-progress-bar"><div class="bar-fill gold" style="width: 65%"></div></div>
+              <span class="health-sub">Long-term tax capital gains bias</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 10: Portfolio Alerts -->
+        <div class="card glass-panel" id="cardPortfolioAlerts">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <h3>Smart Portfolio Alerts</h3>
+            </div>
+            <span class="badge-alert-count" id="alertCountBadge">3 Active</span>
+          </div>
+          <div class="alerts-feed-container" id="alertsFeedContainer">
+            <!-- Dynamic alerts populate here -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 2: HOLDINGS MATRIX (Categorized Group Accordion) -->
+    <!-- ======================================================== -->
+    <section class="workspace-section" id="workspaceHoldings">
+      <div class="card glass-panel">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <div>
+              <h3>Categorized Holdings Matrix & Tax-Lot Inspector</h3>
+              <span class="table-subtitle">Organized by Asset Category with Column Subtotals and Expand/Collapse Controls</span>
+            </div>
+          </div>
+          <div class="table-actions-group">
+            <div class="accordion-controls">
+              <button class="btn-group-toggle" id="btnExpandAll">Expand All</button>
+              <button class="btn-group-toggle" id="btnCollapseAll">Collapse All</button>
+            </div>
+            <button class="action-btn btn-sm btn-outline btn-customize-cols" id="btnOpenColumnPicker" title="Customize Visible Columns">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Columns (<span id="visibleColsCountBadge">13</span>)</span>
+            </button>
+            <span class="badge-subtle" id="holdingsTableSubtext">Showing 152 active tax-lots</span>
+            <button class="action-btn btn-sm btn-outline" id="btnExportHoldingsCsv">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="table-responsive-wrapper">
+          <table class="meridian-table categorized-matrix-table" id="holdingsMasterTable">
+            <thead>
+              <tr id="holdingsTheadRow">
+                <th class="sortable" data-col="lotId" data-sort="lotId">Lot ID</th>
+                <th class="sortable" data-col="symbol" data-sort="symbol">Symbol</th>
+                <th class="sortable" data-col="name" data-sort="name">Instrument Name</th>
+                <th class="sortable" data-col="assetType" data-sort="assetType">Asset Type</th>
+                <th class="sortable" data-col="sector" data-sort="sector">Sector</th>
+                <th class="sortable" data-col="currency" data-sort="currency">Currency</th>
+                <th class="sortable" data-col="advisor" data-sort="advisor">Advisor</th>
+                <th class="sortable" data-col="broker" data-sort="broker">Broker</th>
+                <th class="sortable" data-col="tag" data-sort="tag">Tag</th>
+                <th class="sortable" data-col="purchaseDate" data-sort="purchaseDate">Purchase Date</th>
+                <th class="sortable num-col" data-col="qty" data-sort="qty">Quantity</th>
+                <th class="sortable num-col" data-col="invPrice" data-sort="invPrice">Cost Basis</th>
+                <th class="sortable num-col" data-col="price" data-sort="price">Latest Price / NAV</th>
+                <th class="sortable num-col" data-col="high52" data-sort="high52">52W High</th>
+                <th class="sortable num-col" data-col="low52" data-sort="low52">52W Low</th>
+                <th class="sortable num-col" data-col="invAmount" data-sort="invAmount">Invested</th>
+                <th class="sortable num-col" data-col="latestValue" data-sort="latestValue">Current Value</th>
+                <th class="sortable num-col" data-col="weight" data-sort="weight">Weight %</th>
+                <th class="sortable num-col" data-col="dayGainAmount" data-sort="dayGainAmount">Day Gain (₹)</th>
+                <th class="sortable num-col" data-col="dayGain" data-sort="dayGain">Day Gain %</th>
+                <th class="sortable num-col" data-col="overallGainAmount" data-sort="overallGainAmount">Overall Gain (₹)</th>
+                <th class="sortable num-col" data-col="overallGain" data-sort="overallGain">Overall Gain %</th>
+                <th class="sortable num-col" data-col="cagr" data-sort="cagr">Per-Lot CAGR</th>
+                <th class="sortable num-col" data-col="holdingDays" data-sort="holdingDays">Holding Days</th>
+                <th class="sortable" data-col="taxStatus" data-sort="taxStatus">Tax Status</th>
+                <th class="sortable num-col" data-col="divYield" data-sort="divYield">Div Yield %</th>
+                <th class="col-center" data-col="drawdown">52W Drawdown</th>
+                <th data-col="notes">Notes</th>
+                <th class="col-actions" data-col="col-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="holdingsTableBody">
+              <!-- Categorized Rows populated dynamically -->
+            </tbody>
+            <tfoot id="holdingsTableFoot">
+              <!-- Reconciled Grand Total Row populated dynamically -->
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 3: INCOME & YIELD HUB -->
+    <!-- ======================================================== -->
+    <section class="workspace-section" id="workspaceIncome">
+
+      <!-- FX Attribution Decomposition Strip -->
+      <div class="card glass-panel mb-24" id="cardFxAttribution">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+            <h3>USD Asset Performance & FX Attribution Decomposition</h3>
+          </div>
+          <span class="badge-subtle">USD/INR Spot: ₹83.95 (Ref 95.54)</span>
+        </div>
+        <p class="section-notice">
+          <strong>Currency Intelligence:</strong> For offshore US holdings, total INR return is decomposed into <strong>Underlying Equity Alpha (USD)</strong> and <strong>Forex Tailwind (USD appreciation vs INR)</strong>.
+        </p>
+        <div class="fx-decomp-grid" id="fxDecompGrid"></div>
+      </div>
+      
+      <!-- CARD 12: REIT / InvIT Distribution Estimate -->
+      <div class="card glass-panel mb-24" id="cardReitInvit">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>
+            <h3>REIT & InvIT Distribution Estimator (Real Estate Yield Book)</h3>
+          </div>
+          <span class="badge-subtle">Trailing 12-Month Run-rate</span>
+        </div>
+        <p class="section-notice">
+          <strong>Disclosure:</strong> Approximate Total Return is calculated as: <code>(Current Value - Invested Amount + TTM Distribution Income) ÷ Invested Amount × 100</code>. Values represent trailing estimates and are not guaranteed future yields. Total row reflects aggregate mathematical sums.
+        </p>
+        <div class="table-responsive-wrapper">
+          <table class="meridian-table" id="reitInvitTable">
+            <thead>
+              <tr>
+                <th>Instrument Name</th>
+                <th>Symbol</th>
+                <th class="num-col">Units</th>
+                <th class="num-col">Invested (₹)</th>
+                <th class="num-col">Current Value (₹)</th>
+                <th class="num-col">Price Gain (₹)</th>
+                <th class="num-col">TTM Dist / Unit (₹)</th>
+                <th class="num-col">TTM Dist Income (₹)</th>
+                <th class="num-col">Est. Monthly (₹)</th>
+                <th class="num-col">TTM Dist Yield %</th>
+                <th class="num-col">Approx Total Return %</th>
+              </tr>
+            </thead>
+            <tbody id="reitInvitTableBody"></tbody>
+            <tfoot id="reitInvitTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- CARD 13: Fixed Income Tracker -->
+      <div class="card glass-panel mb-24" id="cardFixedIncome">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <h3>Fixed Income & Debt Securities Tracker</h3>
+          </div>
+          <span class="badge-subtle">Bonds, Liquid Funds, Debt Instruments</span>
+        </div>
+        <p class="section-notice">
+          <strong>Disclosure:</strong> Annual and monthly run-rates represent observed coupon rates or NAV accrual schedules and must not be described as guaranteed cash income.
+        </p>
+        <div class="table-responsive-wrapper">
+          <table class="meridian-table" id="fixedIncomeTable">
+            <thead>
+              <tr>
+                <th>Instrument Name</th>
+                <th>Asset Type</th>
+                <th class="num-col">Invested (₹)</th>
+                <th class="num-col">Current Value (₹)</th>
+                <th class="num-col">Accrued Gain (₹)</th>
+                <th class="num-col">Return %</th>
+                <th class="num-col">Coupon / Run-rate %</th>
+                <th class="num-col">Est. Annual Run-rate (₹)</th>
+                <th class="num-col">Est. Monthly Run-rate (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="fixedIncomeTableBody"></tbody>
+            <tfoot id="fixedIncomeTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- CARD 14: Bond Maturity Tracker -->
+      <div class="card glass-panel" id="cardBondMaturity">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <h3>Bond Maturity Schedule & Principal Redemption Pipeline</h3>
+          </div>
+          <span class="badge-subtle">Capital Repayment Calendar</span>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="meridian-table" id="bondMaturityTable">
+            <thead>
+              <tr>
+                <th>Lot ID</th>
+                <th>Issuer</th>
+                <th>Broker</th>
+                <th>Coupon Rate %</th>
+                <th>Maturity Date</th>
+                <th>Days to Maturity</th>
+                <th class="num-col">Invested Amount (₹)</th>
+                <th class="num-col">Maturity Value (₹)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="bondMaturityTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 4: LEDGER & AUDIT VAULT -->
+    <!-- ======================================================== -->
+    <section class="workspace-section" id="workspaceLedger">
+      
+      <!-- CARD 16: Append-Only Transaction Ledger -->
+      <div class="card glass-panel mb-24" id="cardTransactionLedger">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <h3>Append-Only Transaction Ledger (Buys & Sells)</h3>
+          </div>
+          <div class="table-actions-group">
+            <button class="action-btn btn-sm btn-primary" id="btnLedgerAddBuy">+ Add Buy</button>
+            <button class="action-btn btn-sm btn-secondary" id="btnLedgerSell">+ Sell Lot</button>
+          </div>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="meridian-table" id="transactionsTable">
+            <thead>
+              <tr>
+                <th>Txn ID</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Target / Source Lot ID</th>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Advisor</th>
+                <th>Broker</th>
+                <th class="num-col">Quantity</th>
+                <th class="num-col">Price</th>
+                <th>Currency</th>
+                <th class="num-col">Fees</th>
+                <th class="num-col">Cost Basis Used</th>
+                <th class="num-col">Realized Gain</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AUDIT VAULT: Corrections & Deletions -->
+      <div class="grid-2-col">
+        <!-- Corrections Log -->
+        <div class="card glass-panel" id="cardCorrections">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <h3>Audit-Safe Corrections Log</h3>
+            </div>
+            <span class="badge-subtle" id="correctionsCountBadge">0 Edits</span>
+          </div>
+          <div class="table-responsive-wrapper">
+            <table class="meridian-table" id="correctionsTable">
+              <thead>
+                <tr>
+                  <th>Correction ID</th>
+                  <th>Lot ID</th>
+                  <th>Field Changed</th>
+                  <th>Old Value</th>
+                  <th>New Value</th>
+                  <th>Reason</th>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="correctionsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Soft Deletions Log -->
+        <div class="card glass-panel" id="cardDeletions">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <h3>Soft-Deleted Lots Log</h3>
+            </div>
+            <span class="badge-subtle" id="deletionsCountBadge">0 Deleted</span>
+          </div>
+          <div class="table-responsive-wrapper">
+            <table class="meridian-table" id="deletionsTable">
+              <thead>
+                <tr>
+                  <th>Deletion ID</th>
+                  <th>Lot ID</th>
+                  <th>Instrument Name</th>
+                  <th>Reason</th>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="deletionsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 5: RISK & HEALTH DIAGNOSTICS -->
+    <!-- ======================================================== -->
+    <section class="workspace-section" id="workspaceHealth">
+      
+      <!-- Smart Tax-Lot Harvesting & LTCG / STCG Radar -->
+      <div class="card glass-panel mb-24" id="cardTaxRadar">
+        <div class="card-header">
+          <div class="card-title-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <h3>Smart Tax-Lot Harvesting & LTCG / STCG Tax Radar</h3>
+          </div>
+          <span class="badge-subtle">FY 2026-27 Optimization</span>
+        </div>
+        <div class="tax-radar-grid">
+          <div class="tax-box">
+            <span class="tax-lbl">LTCG QUALIFIED LOTS</span>
+            <span class="tax-val font-mono highlight-emerald" id="taxLtcgVal">₹28.45 Lakhs</span>
+            <span class="tax-sub" id="taxLtcgCount">118 Lots held &gt; 365 Days (12.5% Tax Rate)</span>
+          </div>
+          <div class="tax-box">
+            <span class="tax-lbl">STCG LOTS</span>
+            <span class="tax-val font-mono highlight-gold" id="taxStcgVal">₹9.97 Lakhs</span>
+            <span class="tax-sub" id="taxStcgCount">34 Lots held &lt; 365 Days (20% Tax Rate)</span>
+          </div>
+          <div class="tax-box">
+            <span class="tax-lbl">HARVESTABLE TAX LOSSES</span>
+            <span class="tax-val font-mono highlight-rose" id="taxHarvestVal">-₹1.42 Lakhs</span>
+            <span class="tax-sub" id="taxHarvestCount">Available to offset realized equity gains</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2-col mb-24">
+        <div class="card glass-panel">
+          <div class="card-header">
+            <h3>Concentration & HHI Deep Dive</h3>
+            <span class="badge-subtle">Herfindahl-Hirschman Standard</span>
+          </div>
+          <div class="hhi-deep-dive">
+            <div class="hhi-stat-row">
+              <div class="hhi-stat-box">
+                <span class="lbl">HHI Score</span>
+                <span class="val font-mono" id="hhiScoreVal">0.0824</span>
+                <span class="desc">Well Diversified (&lt; 0.1500)</span>
+              </div>
+              <div class="hhi-stat-box">
+                <span class="lbl">Top 5 Holdings Weight</span>
+                <span class="val font-mono" id="top5WeightVal">34.2%</span>
+                <span class="desc">Healthy multi-asset spread</span>
+              </div>
+              <div class="hhi-stat-box">
+                <span class="lbl">Max Lot Weight</span>
+                <span class="val font-mono" id="maxLotWeightVal">12.8%</span>
+                <span class="desc">SBI Liquid Fund (Cash Reserve)</span>
+              </div>
+            </div>
+            <div class="largest-holdings-list mt-16" id="largestHoldingsList"></div>
+          </div>
+        </div>
+
+        <div class="card glass-panel">
+          <div class="card-header">
+            <h3>Drawdown & 52-Week High Risk Watch</h3>
+            <span class="badge-alert-count">Alert Threshold: -20%</span>
+          </div>
+          <div class="drawdown-watch-list" id="drawdownWatchList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- WORKSPACE 6: DEDICATED AI REVIEW & HEALTH INTELLIGENCE   -->
+    <!-- ======================================================== -->
+    <section class="workspace-section" id="workspaceAiReview">
+      <div class="ai-workspace-container">
+        
+        <!-- Hero Executive Banner -->
+        <div class="ai-hero-banner">
+          <div class="ai-hero-left">
+            <div class="ai-hero-icon-pulse">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="ai-hero-title-group">
+              <h2>AI Portfolio Review & Health Intelligence Engine</h2>
+              <p>Autonomous multi-factor algorithmic diagnostic, concentration stress-testing, and rebalancing recommendations.</p>
+            </div>
+          </div>
+          <div class="ai-hero-actions">
+            <div class="ai-engine-badge">
+              <span class="ai-live-dot"></span>
+              <span>Gemini 2.5 & Meridian Neural Active</span>
+            </div>
+            <button class="action-btn btn-sm btn-primary" id="btnRunFullAiAudit">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Run Live AI Audit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Health Intelligence Barometer & Metric Gauges -->
+        <div class="ai-health-gauges-grid">
+          <!-- Gauge 1: Health Score -->
+          <div class="card glass-panel health-gauge-card">
+            <div class="gauge-svg-wrap">
+              <svg viewBox="0 0 36 36">
+                <path class="gauge-bg-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="gauge-val-ring" stroke="#10b981" stroke-dasharray="88, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <span class="gauge-score-number" id="gaugeHealthScore">88</span>
+            </div>
+            <div class="gauge-info-wrap">
+              <span class="gauge-label">Overall Health Score</span>
+              <span class="gauge-grade highlight-emerald">Grade A (Resilient)</span>
+              <span class="gauge-desc">Low systemic beta, multi-asset alpha</span>
+            </div>
+          </div>
+
+          <!-- Gauge 2: Currency Buffer -->
+          <div class="card glass-panel health-gauge-card">
+            <div class="gauge-svg-wrap">
+              <svg viewBox="0 0 36 36">
+                <path class="gauge-bg-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="gauge-val-ring" stroke="#38bdf8" stroke-dasharray="92, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <span class="gauge-score-number" id="gaugeCurrencyScore">92</span>
+            </div>
+            <div class="gauge-info-wrap">
+              <span class="gauge-label">USD Macro Buffer</span>
+              <span class="gauge-grade" style="color: #38bdf8;">Optimal (24.2%)</span>
+              <span class="gauge-desc">Hedged against INR dollar depreciation</span>
+            </div>
+          </div>
+
+          <!-- Gauge 3: Asset Equilibrium -->
+          <div class="card glass-panel health-gauge-card">
+            <div class="gauge-svg-wrap">
+              <svg viewBox="0 0 36 36">
+                <path class="gauge-bg-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="gauge-val-ring" stroke="#818cf8" stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <span class="gauge-score-number" id="gaugeEquilibriumScore">85</span>
+            </div>
+            <div class="gauge-info-wrap">
+              <span class="gauge-label">Asset Diversification</span>
+              <span class="gauge-grade" style="color: #818cf8;">Balanced (6 Classes)</span>
+              <span class="gauge-desc">Stocks, Bonds, REITs, MFs, ETFs, US</span>
+            </div>
+          </div>
+
+          <!-- Gauge 4: Tax Optimization -->
+          <div class="card glass-panel health-gauge-card">
+            <div class="gauge-svg-wrap">
+              <svg viewBox="0 0 36 36">
+                <path class="gauge-bg-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="gauge-val-ring" stroke="#fbbf24" stroke-dasharray="91, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <span class="gauge-score-number" id="gaugeTaxScore">91</span>
+            </div>
+            <div class="gauge-info-wrap">
+              <span class="gauge-label">Tax Efficiency</span>
+              <span class="gauge-grade highlight-gold">91.8% LTCG</span>
+              <span class="gauge-desc">140/152 lots matured past 365 days</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive AI Generation Studio -->
+        <div class="card glass-panel ai-model-studio-card">
+          <div class="ai-studio-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              <div>
+                <h3>Interactive AI Portfolio Review & Scenario Studio</h3>
+                <span class="table-subtitle">Ask specific scenario queries or generate deep multi-factor audit reports</span>
+              </div>
+            </div>
+            <div class="ai-studio-controls">
+              <label for="aiModelSelect" style="font-size: 11.5px; color: var(--text-muted);">Inference Model:</label>
+              <select id="aiModelSelect" class="ai-select-model">
+                <option value="gemini-2.5-flash">Gemini 2.5 Flash (Ultra-Fast)</option>
+                <option value="claude-3.5-sonnet">Claude 3.5 Sonnet (Deep Quant)</option>
+                <option value="meridian-neural" selected>Meridian Wealth OS Neural Engine</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ai-chips-row">
+            <span class="ai-chip-label">Quick Scenarios:</span>
+            <button class="ai-chip-btn" data-prompt="Analyze portfolio resilience against a 15% correction in Nifty and tech stocks.">Simulate 15% Nifty Dip</button>
+            <button class="ai-chip-btn" data-prompt="Evaluate the impact of a 50 bps Fed rate cut and USD/INR move towards ₹82.50.">Fed Rate Cut & USD Impact</button>
+            <button class="ai-chip-btn" data-prompt="Identify lots with unrealized losses eligible for tax-loss harvesting in FY 2026-27.">Tax-Loss Harvesting Scan</button>
+            <button class="ai-chip-btn" data-prompt="Generate optimal trim targets for positions exceeding 5% concentration.">Trim Concentration Targets</button>
+          </div>
+
+          <div class="ai-prompt-input-group">
+            <input type="text" id="aiCustomPromptInput" class="ai-prompt-input" placeholder="Type custom analytical question (e.g. 'How should I allocate an additional ₹5 Lakhs across asset classes?')...">
+            <button class="action-btn btn-primary" id="btnSubmitAiPrompt">
+              <span>Generate Audit</span>
+            </button>
+          </div>
+
+          <div class="ai-response-stream-box" id="aiResponseStreamBox">
+            <div id="aiResponseContent">
+              <p><strong>Meridian Neural Executive Summary:</strong></p>
+              <ul style="padding-left: 20px; margin-top: 8px; line-height: 1.7;">
+                <li><strong>Multi-Asset Resilience:</strong> The portfolio demonstrates an institutional-grade balance across 6 distinct asset classes. Equity exposure (62.2% combined Indian + US) is cushioned by high-yielding Fixed Income (18.1%) and REIT/InvIT real estate cashflows (19.7%).</li>
+                <li><strong>USD Macroeconomic Moat:</strong> Offshore US equity holdings provide an organic dollar-denominated buffer, effectively shielding total net worth against emerging market currency shocks.</li>
+                <li><strong>Income & Cash Generation:</strong> Run-rate cashflow from Embassy Office Parks REIT, Brookfield India REIT, and Corporate Bonds yields steady distributions, which can be dynamically redeployed into systematic equity accumulation.</li>
+                <li><strong>Concentration Advisory:</strong> Top 3 positions (RELIANCE, HDFCBANK, AAPL) constitute 31.4% of total equity valuation. Staggered rebalancing on outperforming lots into sovereign gold bonds or liquid debt is recommended.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGENTIC INVESTMENT COMMITTEE CHAMBER (3 Specialists + CIO Arbiter) -->
+        <div class="card glass-panel ai-committee-chamber-card" id="aiCommitteeChamberCard">
+          <div class="ai-committee-header">
+            <div class="card-title-group">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <div>
+                <h3 style="display: flex; align-items: center; gap: 8px;">
+                  Agentic Investment Committee Chamber
+                  <span class="committee-live-badge"><span class="ai-live-dot"></span> 4 Agents Active</span>
+                </h3>
+                <span class="table-subtitle">Autonomous Institutional Review: Growth vs. Risk vs. Tax with Binding CIO Arbitration</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="action-btn btn-primary" id="btnConveneCommittee" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Convene Committee Hearing</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CIO Binding Executive Verdict Box -->
+          <div class="cio-verdict-box" id="cioVerdictBox">
+            <div class="cio-header-row">
+              <div>
+                <span class="cio-badge">Chief Investment Officer • Binding Decision Memo</span>
+                <h4 class="cio-headline" id="cioHeadline">Strategic Rebalancing & Concentration Mandate</h4>
+                <p class="cio-summary-p" id="cioSummary">
+                  The committee unanimously recognizes the importance of systematic asset allocation and regular rebalancing. The CIO rules in favor of a disciplined strategy: locking in profits on outperforming positions, and redirecting proceeds into conservative debt and liquid funds to optimize yield with zero unnecessary tax drag.
+                </p>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;" id="committeeTimestamp">Live Audit</span>
+            </div>
+
+            <!-- Consensus Actions & Debated Points -->
+            <div class="committee-grid-2col">
+              <div>
+                <h5 style="font-size: 12px; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                  <span>✓</span> Consensus Actions (All Agents Agreed)
+                </h5>
+                <div id="committeeConsensusList" style="display: flex; flex-direction: column; gap: 10px;">
+                  <div class="consensus-card">
+                    <div class="consensus-card-header">
+                      <strong style="font-size: 12px; color: #f8fafc;">Maintain Conservative Liquid Reserves</strong>
+                      <span class="consensus-badge">Ongoing</span>
+                    </div>
+                    <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45;">Direct dividend and yield inflows into high-quality liquid funds for capital preservation and emergency liquidity.</span>
+                  </div>
+                  <div class="consensus-card">
+                    <div class="consensus-card-header">
+                      <strong style="font-size: 12px; color: #f8fafc;">Enforce Multi-Bracket Tax Slab Segregation</strong>
+                      <span class="consensus-badge">High</span>
+                    </div>
+                    <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45;">Establish an optimal wealth policy: route fixed income, bonds, and dividend assets under lower tax bracket accounts to minimize tax friction.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h5 style="font-size: 12px; font-weight: 800; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                  <span>⚖️</span> Debated Clashes & CIO Rulings
+                </h5>
+                <div id="committeeDebatesList">
+                  <div class="clash-card">
+                    <div class="clash-topic-title">
+                      <span>⚡</span> US Tech Allocation (AAPL / NVDA): Momentum vs. Concentration
+                    </div>
+                    <div class="clash-arguments">
+                      <div class="arg-box">
+                        <strong style="color: #38bdf8;">Growth:</strong>
+                        Hold winning offshore tech lots (+39% gain); top tech compounders.
+                      </div>
+                      <div class="arg-box">
+                        <strong style="color: #f43f5e;">Risk:</strong>
+                        Trim 20-30% at target resistance; heavy single-sector tech exposure violates risk budgets.
+                      </div>
+                      <div class="arg-box">
+                        <strong style="color: #10b981;">Tax:</strong>
+                        Selling is tax-efficient (mature lots qualify for LTCG 12.5%). Harvest higher-cost basis lots first.
+                      </div>
+                    </div>
+                    <div class="cio-ruling-bar">
+                      <strong>CIO Ruling:</strong> Trim overweight lots over two tranches, locking in gains while preserving a substantial core compounding position.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Immediate 30-Day Checkpoints Table -->
+            <div style="margin-top: 14px;">
+              <h5 style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+                Immediate 30-Day Checkpoints
+              </h5>
+              <table class="checkpoints-table">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th style="width: 90px;">Owner</th>
+                    <th style="width: 110px;">Target</th>
+                    <th>Expected Impact</th>
+                  </tr>
+                </thead>
+                <tbody id="committeeCheckpointsTbody">
+                  <tr>
+                    <td style="color: #f8fafc; font-weight: 600;">Trim overweight US single-stock positions into broad tech index.</td>
+                    <td><span class="tag-badge tag-self">Primary</span></td>
+                    <td class="font-mono text-muted">Next 14 Days</td>
+                    <td style="color: #34d399;">Generates ~₹2.5L liquidity; reduces single-stock volatility.</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #f8fafc; font-weight: 600;">Deploy ₹2,00,000 into SBI Liquid Fund for emergency buffer.</td>
+                    <td><span class="tag-badge tag-self">Secondary</span></td>
+                    <td class="font-mono text-muted">Next 21 Days</td>
+                    <td style="color: #34d399;">Provides liquid yield with zero capital risk.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Committee Specialist Hearings (Stage 1 Fan-Out) -->
+          <div class="specialists-hearing-wrap">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h4 style="font-size: 13px; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">
+                Stage 1: Committee Specialist Testimony
+              </h4>
+              <span style="font-size: 11px; color: var(--text-muted);">Independent parallel evaluations prior to CIO synthesis</span>
+            </div>
+
+            <div class="specialist-cards-grid" id="specialistCardsGrid">
+              <!-- Specialist 1: Growth -->
+              <div class="specialist-card card-growth">
+                <div class="specialist-header">
+                  <span class="specialist-avatar">📈</span>
+                  <div>
+                    <div class="specialist-name">Allocation & Alpha Specialist</div>
+                    <div class="specialist-model">Model: Ling 3.0 Flash Fin</div>
+                  </div>
+                </div>
+                <div class="specialist-verdict" style="color: #38bdf8;" id="growthVerdict">
+                  US Equities (+39% gain) are outperforming domestic stock sleeves; shift passive capital to compounders.
+                </div>
+                <div>
+                  <strong style="font-size: 10px; color: #94a3b8; text-transform: uppercase;">Observations:</strong>
+                  <ul class="specialist-list" id="growthObservations">
+                    <li>US Tech holdings represent ₹9.20L (16.3%) with strong secular momentum in enterprise tech.</li>
+                    <li>Domestic Indian stock sleeves (₹20.65L / 36.6%) are flat (-1.54%), weighed down by micro-caps.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Specialist 2: Risk -->
+              <div class="specialist-card card-risk">
+                <div class="specialist-header">
+                  <span class="specialist-avatar">🛡️</span>
+                  <div>
+                    <div class="specialist-name">Chief Risk Officer (The Bear)</div>
+                    <div class="specialist-model">Model: Nemotron-3 Ultra 550B</div>
+                  </div>
+                </div>
+                <div class="specialist-verdict" style="color: #f43f5e;" id="riskVerdict">
+                  Critical concentration warning: Single-stock exposure in offshore tech (16.3%) approaches the 10% risk ceiling.
+                </div>
+                <div>
+                  <strong style="font-size: 10px; color: #94a3b8; text-transform: uppercase;">Vulnerabilities:</strong>
+                  <ul class="specialist-list" id="riskVulnerabilities">
+                    <li>A 25% tech correction erases ~₹2,30,000 from portfolio net worth.</li>
+                    <li>Single-stock foreign equity exposure in offshore tech (16.3%) approaches the risk ceiling.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Specialist 3: Tax -->
+              <div class="specialist-card card-tax">
+                <div class="specialist-header">
+                  <span class="specialist-avatar">🏛️</span>
+                  <div>
+                    <div class="specialist-name">Family Tax & Cashflow Strategist</div>
+                    <div class="specialist-model">Model: GLM-5.2</div>
+                  </div>
+                </div>
+                <div class="specialist-verdict" style="color: #34d399;" id="taxVerdict">
+                  Exploit the 30% vs 0% family tax slab arbitrage and utilize matured LTCG status across all 7 US stock lots.
+                </div>
+                <div>
+                  <strong style="font-size: 10px; color: #94a3b8; text-transform: uppercase;">Tax Opportunities:</strong>
+                  <ul class="specialist-list" id="taxOpportunities">
+                    <li>Long-term offshore lots qualify for LTCG (12.5%). Sell higher-cost basis lots first to minimize net capital gains.</li>
+                    <li>Route all future bonds and debt MFs under lower tax slab accounts to optimize net-of-tax yield.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Deep Analytical Diagnostic Pillars (2x2 Grid) -->
+        <div class="ai-pillars-grid">
+          
+          <!-- Pillar 1: Macro & Currency Hedge -->
+          <div class="card glass-panel ai-pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-title-wrap">
+                <div class="pillar-icon-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">🌐</div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary);">Macro & Currency Hedge</h4>
+                  <span style="font-size: 11.5px; color: var(--text-muted);">USD/INR Sovereign Risk Insulation</span>
+                </div>
+              </div>
+              <span class="pillar-badge-status status-optimal">Optimal</span>
+            </div>
+            <p class="pillar-summary-text">
+              Holdings in US equities provide natural dollar asset backing. As USD/INR hovers at ₹84.50, dollar appreciation adds unearned tailwind alpha to net portfolio valuation in INR terms.
+            </p>
+            <div class="pillar-metric-row">
+              <div class="pillar-metric-item">
+                <span class="pm-label">USD Value</span>
+                <span class="pm-val highlight-cyan" id="pillarUsdVal">$12,696.81</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">INR Equivalent</span>
+                <span class="pm-val" id="pillarUsdInrVal">₹10.66 L</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">Total Share</span>
+                <span class="pm-val font-mono" id="pillarUsdWeight">24.2%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Asset Equilibrium & Covariance -->
+          <div class="card glass-panel ai-pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-title-wrap">
+                <div class="pillar-icon-badge" style="background: rgba(129, 140, 248, 0.15); color: #818cf8;">⚖️</div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary);">Asset Equilibrium & Covariance</h4>
+                  <span style="font-size: 11.5px; color: var(--text-muted);">Non-Correlated Asset Balancing</span>
+                </div>
+              </div>
+              <span class="pillar-badge-status status-optimal">Balanced</span>
+            </div>
+            <p class="pillar-summary-text">
+              Equities, Fixed Income, and Hybrid REIT instruments maintain an estimated covariance of &lt; 0.28. During market pullbacks, quarterly coupon credits and distributions offset equity drawdown.
+            </p>
+            <div class="pillar-metric-row">
+              <div class="pillar-metric-item">
+                <span class="pm-label">Fixed Income</span>
+                <span class="pm-val">₹7.95 L (18.1%)</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">REIT / InvIT</span>
+                <span class="pm-val">₹8.65 L (19.7%)</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">Sharpe Ratio</span>
+                <span class="pm-val highlight-emerald">1.84</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Single-Stock Concentration -->
+          <div class="card glass-panel ai-pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-title-wrap">
+                <div class="pillar-icon-badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">🎯</div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary);">Concentration & Stress Test</h4>
+                  <span style="font-size: 11.5px; color: var(--text-muted);">Single-Stock Exposure Guardrails</span>
+                </div>
+              </div>
+              <span class="pillar-badge-status status-caution">Watch</span>
+            </div>
+            <p class="pillar-summary-text">
+              Top 3 individual positions (RELIANCE, HDFCBANK, AAPL) account for 31.4% of total equity allocation. Stress-testing a 20% single-name tech shock results in a controlled 4.8% max total portfolio drawdown.
+            </p>
+            <div class="pillar-metric-row">
+              <div class="pillar-metric-item">
+                <span class="pm-label">Top 5 Weight</span>
+                <span class="pm-val" id="pillarTop5Weight">34.2%</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">HHI Index</span>
+                <span class="pm-val font-mono">0.0824</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">Max Drawdown</span>
+                <span class="pm-val highlight-emerald">-6.4%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pillar 4: Tax-Loss Harvesting & Capital Gains -->
+          <div class="card glass-panel ai-pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-title-wrap">
+                <div class="pillar-icon-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">📑</div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary);">Tax-Loss Harvesting & CG Efficiency</h4>
+                  <span style="font-size: 11.5px; color: var(--text-muted);">Post-Budget FY 2026-27 Optimization</span>
+                </div>
+              </div>
+              <span class="pillar-badge-status status-optimal">High</span>
+            </div>
+            <p class="pillar-summary-text">
+              91.8% of tax-lots qualify for Long-Term Capital Gains (LTCG @ 12.5%). Approximately ₹1.42 Lakhs in unrealized short-term paper losses can be harvested prior to March 31 to offset taxable gains.
+            </p>
+            <div class="pillar-metric-row">
+              <div class="pillar-metric-item">
+                <span class="pm-label">LTCG Lots</span>
+                <span class="pm-val highlight-emerald">140 Lots</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">STCG Lots</span>
+                <span class="pm-val">12 Lots</span>
+              </div>
+              <div class="pillar-metric-item">
+                <span class="pm-label">Harvestable</span>
+                <span class="pm-val highlight-rose">-₹1.42 L</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Actionable Rebalancing Checklist -->
+        <div class="card glass-panel ai-rebalance-checklist-card">
+          <div class="rebalance-checklist-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <div>
+                <h3>Actionable Algorithmic Rebalancing Checklist</h3>
+                <span class="table-subtitle">Target tactical adjustments based on covariance and risk tolerance</span>
+              </div>
+            </div>
+            <span class="badge-subtle">Quarterly Horizon (Q3 2026)</span>
+          </div>
+
+          <div class="rebalance-items-wrap" id="rebalanceItemsContainer">
+            <div class="rebalance-item">
+              <input type="checkbox" id="chkRebal1">
+              <div class="rebalance-content">
+                <div class="rebalance-action-title">
+                  <span>Rebalance US tech holdings by 15% upon reaching allocation ceiling</span>
+                  <span class="priority-pill priority-med">Medium Priority</span>
+                </div>
+                <span class="rebalance-reason">Locks in dollar gains and caps single-stock tech concentration risk below 20% of total portfolio.</span>
+              </div>
+            </div>
+
+            <div class="rebalance-item">
+              <input type="checkbox" id="chkRebal2">
+              <div class="rebalance-content">
+                <div class="rebalance-action-title">
+                  <span>Harvest ₹68,000 in paper loss on underperforming Midcap ETF lots</span>
+                  <span class="priority-pill priority-high">High Priority</span>
+                </div>
+                <span class="rebalance-reason">Offsets realized LTCG from recent rebalancing; funds can be immediately rotated into NIFTY 50 BeES or Large Cap Index.</span>
+              </div>
+            </div>
+
+            <div class="rebalance-item">
+              <input type="checkbox" id="chkRebal3">
+              <div class="rebalance-content">
+                <div class="rebalance-action-title">
+                  <span>Route monthly REIT & InvIT distributions (₹5,350) into Sovereign Gold Bonds (SGB)</span>
+                  <span class="priority-pill priority-low">Low Priority</span>
+                </div>
+                <span class="rebalance-reason">Enhances gold allocation from current 4.2% towards long-term target of 8.0% for stagflation protection.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: BUY -->
+  <div class="meridian-modal-overlay" id="buyModal">
+    <div class="meridian-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          <h3>Add Buy Transaction (Symbol-First Entry)</h3>
+        </div>
+        <button class="modal-close-btn" id="closeBuyModal">&times;</button>
+      </div>
+      <form id="buyForm" class="modal-form">
+        <div class="form-row-highlight">
+          <div class="form-group">
+            <label for="buySymbol">Symbol <span class="req">*</span></label>
+            <input type="text" id="buySymbol" placeholder="e.g. INFY, AAPL, BIRET, GOLDBEES" required autocomplete="off">
+            <span class="form-hint">Type any NSE or US symbol. Metadata is fetched dynamically.</span>
+          </div>
+          <button type="button" class="btn-lookup" id="btnLookupSymbol">Resolve Metadata</button>
+        </div>
+
+        <div class="lookup-result-card" id="lookupResultCard">
+          <div class="lookup-header">
+            <span class="lookup-status-badge" id="lookupStatusBadge">Enter symbol to fetch metadata</span>
+          </div>
+          <div class="lookup-grid" id="lookupGrid">
+            <div class="lookup-item"><span class="lbl">Name</span><span class="val" id="lkName">-</span></div>
+            <div class="lookup-item"><span class="lbl">Exchange</span><span class="val" id="lkExchange">-</span></div>
+            <div class="lookup-item"><span class="lbl">Currency</span><span class="val" id="lkCurrency">-</span></div>
+            <div class="lookup-item"><span class="lbl">Asset Type</span><span class="val" id="lkAssetType">-</span></div>
+            <div class="lookup-item"><span class="lbl">Sector</span><span class="val" id="lkSector">-</span></div>
+            <div class="lookup-item"><span class="lbl">Market Cap</span><span class="val" id="lkCap">-</span></div>
+            <div class="lookup-item"><span class="lbl">Current Price</span><span class="val font-mono" id="lkPrice">-</span></div>
+            <div class="lookup-item"><span class="lbl">52W High</span><span class="val font-mono" id="lk52w">-</span></div>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label for="buyQty">Quantity <span class="req">*</span></label>
+            <input type="number" step="any" id="buyQty" placeholder="e.g. 50" required>
+          </div>
+          <div class="form-group">
+            <label for="buyPrice">Buy Price <span class="req">*</span></label>
+            <input type="number" step="any" id="buyPrice" placeholder="e.g. 1420.50" required>
+          </div>
+          <div class="form-group">
+            <label for="buyDate">Transaction Date <span class="req">*</span></label>
+            <input type="date" id="buyDate" required>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label for="buyAdvisor">Advisor</label>
+            <select id="buyAdvisor">
+              <option value="Self-Directed">Self-Directed</option>
+              <option value="Wealth Advisor">Wealth Advisor</option>
+              <option value="Model Portfolio">Model Portfolio</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="buyBroker">Broker / Account</label>
+            <select id="buyBroker">
+              <option value="Zerodha">Zerodha</option>
+              <option value="Groww">Groww</option>
+              <option value="Interactive Brokers">Interactive Brokers</option>
+              <option value="Charles Schwab">Charles Schwab</option>
+              <option value="Kotak">Kotak</option>
+              <option value="IndiaBonds">IndiaBonds</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="buyTag">Custom Tag</label>
+            <select id="buyTag">
+              <option value="Self">Self</option>
+              <option value="PMS">PMS Managed</option>
+              <option value="Tactical">Tactical / High Beta</option>
+              <option value="Core">Core Compounder</option>
+              <option value="ShortTerm">Short-Term / Tactical</option>
+              <option value="RSU">RSU</option>
+              <option value="ESPP">ESPP</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="buyNotes">Notes / Tax Basis Clarifications</label>
+          <input type="text" id="buyNotes" placeholder="e.g. Discretionary allocation / RSU grant">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="action-btn btn-outline" id="cancelBuyModal">Cancel</button>
+          <button type="submit" class="action-btn btn-primary" id="submitBuyBtn">Record Buy Lot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SELL -->
+  <div class="meridian-modal-overlay" id="sellModal">
+    <div class="meridian-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+          <h3>Record Sale (Manual Lot-Matched Execution)</h3>
+        </div>
+        <button class="modal-close-btn" id="closeSellModal">&times;</button>
+      </div>
+      <form id="sellForm" class="modal-form">
+        <div class="form-group">
+          <label for="sellLotSelect">Select Target Source Lot <span class="req">*</span></label>
+          <select id="sellLotSelect" required>
+            <option value="">-- Choose active holding lot to sell from --</option>
+          </select>
+          <span class="form-hint">Preserves exact tax basis for individual lots, ESPP, and RSUs.</span>
+        </div>
+
+        <div class="selected-lot-strip" id="selectedLotStrip">
+          <div class="lot-strip-item"><span class="lbl">Symbol:</span> <strong id="lotStripSymbol">-</strong></div>
+          <div class="lot-strip-item"><span class="lbl">Available Qty:</span> <strong id="lotStripAvailQty" class="font-mono">-</strong></div>
+          <div class="lot-strip-item"><span class="lbl">Cost Basis:</span> <strong id="lotStripCostBasis" class="font-mono">-</strong></div>
+          <div class="lot-strip-item"><span class="lbl">Currency:</span> <strong id="lotStripCurrency">-</strong></div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <div class="label-with-action">
+              <label for="sellQty">Quantity to Sell <span class="req">*</span></label>
+              <button type="button" class="btn-text-action" id="btnSellAllQty">Sell All</button>
+            </div>
+            <input type="number" step="any" id="sellQty" placeholder="e.g. 25" required>
+          </div>
+          <div class="form-group">
+            <label for="sellPrice">Sale Price <span class="req">*</span></label>
+            <input type="number" step="any" id="sellPrice" placeholder="e.g. 1550.00" required>
+          </div>
+          <div class="form-group">
+            <label for="sellFees">Fees / Taxes</label>
+            <input type="number" step="any" id="sellFees" value="0" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sellDate">Sale Date <span class="req">*</span></label>
+          <input type="date" id="sellDate" required>
+        </div>
+
+        <div class="realized-preview-card" id="realizedPreviewCard">
+          <div class="preview-title">Realized Gain / Loss Calculation Preview</div>
+          <div class="preview-grid">
+            <div class="preview-item"><span class="lbl">Sale Proceeds</span><span class="val font-mono" id="prevProceeds">₹0.00</span></div>
+            <div class="preview-item"><span class="lbl">Allocated Cost Basis</span><span class="val font-mono" id="prevAllocCost">₹0.00</span></div>
+            <div class="preview-item"><span class="lbl">Trading Fees</span><span class="val font-mono" id="prevFees">₹0.00</span></div>
+            <div class="preview-item highlight-item"><span class="lbl">Projected Realized Gain</span><span class="val font-mono" id="prevRealizedGain">₹0.00</span></div>
+          </div>
+          <div class="preview-error-banner" id="sellErrorBanner" style="display: none;">
+            ⚠️ Overselling error: Requested quantity exceeds available lot quantity!
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sellNotes">Sale Notes</label>
+          <input type="text" id="sellNotes" placeholder="e.g. Profit taking / Rebalancing">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="action-btn btn-outline" id="cancelSellModal">Cancel</button>
+          <button type="submit" class="action-btn btn-secondary" id="submitSellBtn">Confirm & Record Sale</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CORRECTION -->
+  <div class="meridian-modal-overlay" id="correctModal">
+    <div class="meridian-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <h3>Audit-Safe Holding Correction</h3>
+        </div>
+        <button class="modal-close-btn" id="closeCorrectModal">&times;</button>
+      </div>
+      <form id="correctForm" class="modal-form">
+        <input type="hidden" id="correctLotId">
+        <div class="form-group">
+          <label>Target Lot</label>
+          <div class="static-form-val" id="correctLotDisplay">-</div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="correctField">Field to Correct <span class="req">*</span></label>
+            <select id="correctField" required>
+              <option value="Advisor">Advisor</option>
+              <option value="Broker">Broker</option>
+              <option value="Sector">Sector</option>
+              <option value="Tag1">Custom Tag</option>
+              <option value="Notes">Notes</option>
+              <option value="Cost FX Rate">Cost FX Rate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Current Value</label>
+            <div class="static-form-val font-mono" id="correctOldValue">-</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="correctNewValue">New Value <span class="req">*</span></label>
+          <input type="text" id="correctNewValue" required>
+        </div>
+
+        <div class="form-group">
+          <label for="correctReason">Audit Reason for Correction <span class="req">*</span></label>
+          <input type="text" id="correctReason" placeholder="e.g. Advisor re-assigned to PMS / Corrected sector classification" required>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="action-btn btn-outline" id="cancelCorrectModal">Cancel</button>
+          <button type="submit" class="action-btn btn-primary" id="submitCorrectBtn">Save Audit Correction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: DELETE -->
+  <div class="meridian-modal-overlay" id="deleteModal">
+    <div class="meridian-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <h3>Confirm Soft Deletion of Lot</h3>
+        </div>
+        <button class="modal-close-btn" id="closeDeleteModal">&times;</button>
+      </div>
+      <form id="deleteForm" class="modal-form">
+        <input type="hidden" id="deleteLotId">
+        <input type="hidden" id="deleteLotName">
+        
+        <div class="delete-warning-box">
+          <p>You are about to soft-delete the following holding lot from active portfolio views:</p>
+          <div class="delete-lot-card" id="deleteLotSummary"></div>
+          <p class="delete-note">Deleted lots remain permanently soft-deleted across app restarts, live price syncs, and exports. Duplicate deletion requests will be rejected.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="deleteReason">Reason for Deletion <span class="req">*</span></label>
+          <input type="text" id="deleteReason" placeholder="e.g. Erroneous corporate action duplicate / Test entry" required>
+        </div>
+
+        <div class="preview-error-banner" id="deleteErrorBanner" style="display: none;"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="action-btn btn-outline" id="cancelDeleteModal">Cancel</button>
+          <button type="submit" class="action-btn btn-danger" id="submitDeleteBtn">Confirm Soft Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EXPENSES TRACKER (Self-Tracking) -->
+  <div class="meridian-modal-overlay" id="expensesModal">
+    <div class="meridian-modal-box" style="max-width: 820px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <div>
+            <h3>Expense Tracker <span style="font-size: 0.8rem; font-weight: 500; opacity: 0.7; margin-left: 8px;">(Self-Tracking Only)</span></h3>
+            <span class="modal-sub">Log PMS fees, algo platforms, VPS, and broker API subscriptions. Zero impact on P&amp;L.</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeExpensesModal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px 24px; max-height: calc(85vh - 140px); overflow-y: auto;">
+        <!-- Quick Add / Edit Expense Form -->
+        <div class="expense-add-card" id="expenseAddCard" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px 16px; margin-bottom: 20px;">
+          <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+            <span id="expFormTitle">➕ Add New Expense</span>
+            <button type="button" id="btnCancelEditExpense" style="display: none; background: transparent; border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 0.75rem; border-radius: 4px; padding: 2px 8px; cursor: pointer;">✕ Cancel Edit</button>
+          </div>
+          <form id="formAddExpense" style="display: grid; grid-template-columns: 140px 1fr 140px 130px auto; gap: 10px; align-items: end;">
+            <input type="hidden" id="expEditId" value="">
+            <div class="form-group" style="margin: 0;">
+              <label for="expDate" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Date</label>
+              <input type="date" id="expDate" class="form-control" style="width: 100%; padding: 7px 10px; font-size: 0.82rem; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="expDescription" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Description / Vendor</label>
+              <input type="text" id="expDescription" placeholder="e.g. Market Feed, Advisory Fee" class="form-control" style="width: 100%; padding: 7px 10px; font-size: 0.82rem; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);" required autocomplete="off">
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="expCategory" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Category</label>
+              <select id="expCategory" class="form-control" style="width: 100%; padding: 7px 8px; font-size: 0.82rem; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);">
+                <option value="PMS">PMS Fee</option>
+                <option value="Algo">Algo Platform</option>
+                <option value="API">Broker API</option>
+                <option value="VPS">Cloud VPS</option>
+                <option value="General">Other / Misc</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="expAmount" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Amount (₹)</label>
+              <input type="number" id="expAmount" placeholder="0.00" step="any" min="0.01" class="form-control" style="width: 100%; padding: 7px 10px; font-size: 0.82rem; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);" required>
+            </div>
+            <button type="submit" class="action-btn btn-primary" id="btnSubmitExpense" style="padding: 8px 14px; height: 35px; white-space: nowrap;">
+              <span id="btnSubmitExpenseText">+ Add</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Summary & Stats Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary);">Recorded Expenses</span>
+            <span id="expCountBadge" style="font-size: 0.75rem; color: var(--text-muted);">(0 entries)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 6px; padding: 6px 14px;">
+            <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Total Spent:</span>
+            <span id="expTotalAmount" style="font-size: 1.1rem; font-weight: 700; color: #38bdf8;">₹0.00</span>
+          </div>
+        </div>
+
+        <!-- Expenses Table Container -->
+        <div style="border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; background: var(--bg-card);">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.84rem;">
+            <thead>
+              <tr style="background: rgba(15, 23, 42, 0.5); border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                <th style="padding: 10px 14px;">Date</th>
+                <th style="padding: 10px 14px;">Category</th>
+                <th style="padding: 10px 14px;">Description / Vendor</th>
+                <th style="padding: 10px 14px; text-align: right;">Amount (₹)</th>
+                <th style="padding: 10px 14px; text-align: center; width: 90px;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="expensesTableBody">
+              <!-- Populated via Javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 24px; background: rgba(15, 23, 42, 0.4); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Stored locally in <code>data/expenses.csv</code></span>
+        <button type="button" class="action-btn btn-outline" id="btnDoneExpensesModal" style="padding: 6px 16px;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: COLUMN PICKER / CUSTOMIZE COLUMNS -->
+  <div class="meridian-modal-overlay" id="columnPickerModal">
+    <div class="meridian-modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <div>
+            <h3>Customize Holdings Matrix Columns</h3>
+            <span class="modal-sub">Select or deselect columns to customize your table. Preferences are saved automatically.</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeColumnPickerModal">&times;</button>
+      </div>
+
+      <div class="column-picker-body">
+        <div class="col-picker-actions-bar">
+          <button type="button" class="btn-group-toggle" id="btnSelectAllCols">Select All</button>
+          <button type="button" class="btn-group-toggle" id="btnDeselectAllCols">Deselect All</button>
+          <button type="button" class="btn-group-toggle" id="btnResetDefaultCols">Reset Defaults</button>
+          <span class="col-picker-status" id="colPickerStatusText">13 of 29 Columns Selected</span>
+        </div>
+
+        <div class="col-picker-grid" id="columnPickerGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="action-btn btn-outline" id="cancelColumnPickerModal">Cancel</button>
+        <button type="button" class="action-btn btn-primary" id="btnSaveColumns">Save & Apply Columns</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: MULTI-SOURCE SYNC QUOTES MONITOR -->
+  <div class="meridian-modal-overlay" id="syncQuotesModal">
+    <div class="meridian-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+          <div>
+            <h3>Python Multi-Source Orchestrator</h3>
+            <span class="modal-sub">Executing concurrent market feeds across NSE, NASDAQ, AMFI & Forex</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeSyncModal">&times;</button>
+      </div>
+
+      <div class="sync-orchestrator-body">
+        <div class="sync-progress-bar-wrap">
+          <div class="sync-progress-bar" id="syncProgressBar" style="width: 0%;"></div>
+        </div>
+
+        <div class="sync-sources-list">
+          <div class="sync-source-item" id="syncSourceNse">
+            <div class="sync-source-icon">📈</div>
+            <div class="sync-source-info">
+              <span class="sync-source-name">NSE / BSE Indian Equities (127 Stocks)</span>
+              <span class="sync-source-meta" id="syncSourceNseMeta">Yahoo Finance Batch & BSE Header Fallback</span>
+            </div>
+            <span class="sync-status-badge pending" id="syncStatusNse">Queued</span>
+          </div>
+
+          <div class="sync-source-item" id="syncSourceUs">
+            <div class="sync-source-icon">🌐</div>
+            <div class="sync-source-info">
+              <span class="sync-source-name">US Equities (Amazon RSU / ESPP)</span>
+              <span class="sync-source-meta" id="syncSourceUsMeta">NASDAQ FastInfo & Real-Time Price</span>
+            </div>
+            <span class="sync-status-badge pending" id="syncStatusUs">Queued</span>
+          </div>
+
+          <div class="sync-source-item" id="syncSourceMf">
+            <div class="sync-source-icon">📊</div>
+            <div class="sync-source-info">
+              <span class="sync-source-name">Indian Mutual Funds (10 Schemes)</span>
+              <span class="sync-source-meta" id="syncSourceMfMeta">Official AMFI Direct NAV Daily API</span>
+            </div>
+            <span class="sync-status-badge pending" id="syncStatusMf">Queued</span>
+          </div>
+
+          <div class="sync-source-item" id="syncSourceBonds">
+            <div class="sync-source-icon">🛡️</div>
+            <div class="sync-source-info">
+              <span class="sync-source-name">Fixed Income & Bonds (2 Lots)</span>
+              <span class="sync-source-meta" id="syncSourceBondsMeta">Daily Linear Coupon Yield Step Accrual</span>
+            </div>
+            <span class="sync-status-badge pending" id="syncStatusBonds">Queued</span>
+          </div>
+
+          <div class="sync-source-item" id="syncSourceForex">
+            <div class="sync-source-icon">💵</div>
+            <div class="sync-source-info">
+              <span class="sync-source-name">USD/INR Forex Exchange Rate</span>
+              <span class="sync-source-meta" id="syncSourceForexMeta">Live Currency Pair Rate (USDINR=X)</span>
+            </div>
+            <span class="sync-status-badge pending" id="syncStatusForex">Queued</span>
+          </div>
+        </div>
+
+        <div class="sync-summary-stats" id="syncSummaryStats" style="display: none;">
+          <div class="sync-stat-chip">
+            <span class="chip-lbl">Quotes Refreshed:</span>
+            <span class="chip-val" id="syncQuotesCount">152 / 152</span>
+          </div>
+          <div class="sync-stat-chip">
+            <span class="chip-lbl">Execution Time:</span>
+            <span class="chip-val highlight-gold" id="syncTimeElapsed">1.48s</span>
+          </div>
+          <div class="sync-stat-chip">
+            <span class="chip-lbl">Portfolio Revaluation:</span>
+            <span class="chip-val highlight-emerald" id="syncRevaluationVal">₹10.91 Cr (+4.59%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="action-btn btn-primary" id="btnCloseSyncModal" style="display: none;">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- MODAL: SYSTEM ARCHITECTURE & AGENTIC COMMITTEE GUIDE       -->
+  <!-- ========================================================== -->
+  <div class="help-modal-backdrop" id="modalSystemHelp">
+    <div class="help-modal-dialog">
+      <div class="help-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="background: rgba(99, 102, 241, 0.2); color: #818cf8; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text-primary);">Meridian System Guide & Agentic Flow</h3>
+            <span style="font-size: 11px; color: var(--text-muted);">Architecture Reference • Multi-Agent Committee • Financial Operations</span>
+          </div>
+        </div>
+        <button class="modal-close" id="btnCloseSystemHelp" aria-label="Close Guide">&times;</button>
+      </div>
+
+      <div class="help-modal-body">
+        <!-- Navigation Tabs inside Help -->
+        <div class="help-tab-bar">
+          <button class="help-tab-btn active" id="tabHelpAgentic" data-helptarget="helpContentAgentic">1. Agentic Committee Flow Diagram</button>
+          <button class="help-tab-btn" id="tabHelpArchitecture" data-helptarget="helpContentArchitecture">2. System Architecture & ETL Pipeline</button>
+          <button class="help-tab-btn" id="tabHelpFeatures" data-helptarget="helpContentFeatures">3. Features & Financial Formulas</button>
+        </div>
+
+        <!-- TAB 1: AGENTIC COMMITTEE FLOW DIAGRAM -->
+        <div id="helpContentAgentic" class="help-tab-content">
+          <div class="flow-diagram-wrapper">
+            <div class="flow-stage-title">
+              <span>⚡</span> Autonomous 2-Stage Hub-and-Spoke Committee Architecture
+            </div>
+
+            <div class="flow-steps-grid">
+              <!-- Stage 1 -->
+              <div class="flow-step-card">
+                <div class="flow-step-num">1</div>
+                <div class="flow-step-header">Data Ingestion</div>
+                <div class="flow-step-desc">
+                  Anonymized portfolio metrics (asset weights, concentration, cash buffers, LTCG/STCG maturity) are extracted into a structured snapshot.
+                </div>
+                <div style="font-size: 10px; font-weight: 700; color: #38bdf8; margin-top: auto;">Privacy Protected</div>
+              </div>
+
+              <!-- Stage 2 -->
+              <div class="flow-step-card" style="border-color: rgba(99, 102, 241, 0.4);">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-header">Specialist Fan-Out</div>
+                <div class="flow-step-desc">
+                  Three independent specialist LLMs analyze the snapshot concurrently in parallel:
+                  <ul style="padding-left: 14px; margin: 4px 0 0 0;">
+                    <li><strong>Growth:</strong> Alpha & Compounding</li>
+                    <li><strong>Risk:</strong> Max Drawdown & Buffer</li>
+                    <li><strong>Tax:</strong> Multi-Bracket Tax Arbitrage</li>
+                  </ul>
+                </div>
+                <div style="font-size: 10px; font-weight: 700; color: #818cf8; margin-top: auto;">Zero Sycophancy</div>
+              </div>
+
+              <!-- Stage 3 -->
+              <div class="flow-step-card" style="border-color: rgba(245, 158, 11, 0.4);">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-header">CIO Cross-Examination</div>
+                <div class="flow-step-desc">
+                  Specialist recommendations are cross-examined. Growth’s momentum claims clash with Risk’s concentration alarms and Tax’s lot-harvesting reality.
+                </div>
+                <div style="font-size: 10px; font-weight: 700; color: #fbbf24; margin-top: auto;">Arbitration & Rulings</div>
+              </div>
+
+              <!-- Stage 4 -->
+              <div class="flow-step-card" style="border-color: rgba(16, 185, 129, 0.4);">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-header">Executive Action Plan</div>
+                <div class="flow-step-desc">
+                  CIO issues a binding institutional decision memo:
+                  <ul style="padding-left: 14px; margin: 4px 0 0 0;">
+                    <li><strong>Consensus Actions</strong></li>
+                    <li><strong>Debate Rulings</strong></li>
+                    <li><strong>30-Day Checkpoints</strong></li>
+                  </ul>
+                </div>
+                <div style="font-size: 10px; font-weight: 700; color: #10b981; margin-top: auto;">Deterministic Execution</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Committee Persona Deep Dive -->
+          <div style="margin-top: 20px;">
+            <h4 style="font-size: 13px; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+              Committee Member Mandates & Reasoning Profiles
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+              <div class="consensus-card" style="background: rgba(56, 189, 248, 0.05); border-color: rgba(56, 189, 248, 0.2);">
+                <strong style="color: #38bdf8; font-size: 12.5px;">📈 1. Allocation & Alpha Specialist</strong>
+                <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.5;">Focuses on secular growth trends, compounding velocity, and weeding out capital drag. Flags when low-conviction micro-cap stocks lag broad index benchmarks.</span>
+              </div>
+              <div class="consensus-card" style="background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.2);">
+                <strong style="color: #f43f5e; font-size: 12.5px;">🛡️ 2. Chief Risk Officer (The Bear)</strong>
+                <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.5;">Enforces the portfolio's 15-20% maximum drawdown ceiling. Monitors single-stock concentration and preserves capital through systematic risk budgeting.</span>
+              </div>
+              <div class="consensus-card" style="background: rgba(52, 211, 153, 0.05); border-color: rgba(52, 211, 153, 0.2);">
+                <strong style="color: #34d399; font-size: 12.5px;">🏛️ 3. Family Tax & Cashflow Strategist</strong>
+                <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.5;">Exploits the asymmetric personal tax brackets (30% slab vs 0% slab). Calculates LTCG vs STCG holding periods and recommends optimal lot harvesting order.</span>
+              </div>
+              <div class="consensus-card" style="background: rgba(129, 140, 248, 0.05); border-color: rgba(129, 140, 248, 0.2);">
+                <strong style="color: #818cf8; font-size: 12.5px;">⚖️ 4. Chief Investment Officer (Lead Arbiter)</strong>
+                <span style="font-size: 11.5px; color: #cbd5e1; line-height: 1.5;">Breaks deadlocks, overrides emotional bias, and balances upside against ruin risk. Generates prioritized, assignable 30-day task checkpoints with clear owners.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SYSTEM ARCHITECTURE & ETL -->
+        <div id="helpContentArchitecture" class="help-tab-content" style="display: none;">
+          <div class="flow-diagram-wrapper">
+            <h4 style="margin-top: 0; font-size: 14px; font-weight: 700; color: var(--text-primary);">Data Processing & Sync Pipeline</h4>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+              Meridian Wealth OS uses an automated Python ETL pipeline to ingest, clean, and synchronize disparate broker holding reports into a unified multi-currency database:
+            </p>
+            <ul style="font-size: 12px; color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+              <li><strong>Raw Sources:</strong> CSV / Excel holdings imports, broker downloads, or browser drag-and-drop.</li>
+              <li><strong>ETL Master Script:</strong> <code>scripts/build_portfolio_csv.py</code> reconciles holdings, matches tags from <code>data/tags.csv</code>, incorporates date overrides from <code>data/holding_date_overrides.csv</code>, and outputs canonical <code>data/holdings.csv</code>.</li>
+              <li><strong>Live Price Feed:</strong> <code>scripts/live_prices.py</code> queries AMFI API (Mutual Funds), BSE API (REITs/InvITs), and Yahoo Finance (USD/INR and US equities) in parallel.</li>
+              <li><strong>Flask Server:</strong> <code>app.py</code> runs on dedicated <strong>Port 5151</strong>, exposing REST endpoints for holdings, transaction activity, and the AI committee.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB 3: FEATURES & FORMULAS -->
+        <div id="helpContentFeatures" class="help-tab-content" style="display: none;">
+          <div class="flow-diagram-wrapper">
+            <h4 style="margin-top: 0; font-size: 14px; font-weight: 700; color: var(--text-primary);">Key Platform Features & Math Formulas</h4>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px;">
+              <div>
+                <strong style="color: #38bdf8; font-size: 12px;">Multi-Lot Symbol Aggregation:</strong>
+                <p style="font-size: 11.5px; color: #cbd5e1; margin: 4px 0 0 0;">
+                  Consolidates multiple buy lots of the same scrip (e.g. AAPL across 3 lots, ICICIBANK across 4 lots) into a parent row with weighted average cost:
+                  <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono);">Weighted Avg Price = Σ(Qty × Price) / Σ(Qty)</code>.
+                </p>
+              </div>
+              <div>
+                <strong style="color: #10b981; font-size: 12px;">Tax Status & Holding Days:</strong>
+                <p style="font-size: 11.5px; color: #cbd5e1; margin: 4px 0 0 0;">
+                  Calculates elapsed days from each lot's genuine purchase date. Assets held ≥ 365 days automatically receive the <span class="tag-badge" style="background: rgba(16,185,129,0.2); color:#10b981;">LTCG</span> badge (taxed at 12.5% vs STCG slab/20%).
+                </p>
+              </div>
+              <div>
+                <strong style="color: #fbbf24; font-size: 12px;">Multi-Currency Display (INR / USD / DUAL):</strong>
+                <p style="font-size: 11.5px; color: #cbd5e1; margin: 4px 0 0 0;">
+                  Dynamic FX conversion engine allows seamless switching between INR (₹), native USD ($), and Dual Mode (domestic assets in INR, US holdings in USD).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 14px 24px; background: rgba(15, 23, 42, 0.4); border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end;">
+        <button type="button" class="action-btn btn-primary" id="btnDoneSystemHelp">Close Guide</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Hover Inspector Tooltip / HUD -->
+  <div class="theme-inspector-hud" id="themeInspectorHud" style="display: none;">
+    <div class="hud-header">
+      <span class="hud-tag" id="hudTag">Card / Panel</span>
+      <span class="hud-action">Click to inspect</span>
+    </div>
+    <div class="hud-selector" id="hudSelector">.glass-panel.card</div>
+    <div class="hud-details">
+      <div class="hud-row"><span>BG:</span> <strong id="hudBg">#f4f6f9</strong></div>
+      <div class="hud-row"><span>Border:</span> <strong id="hudBorder">#cbd5e1</strong></div>
+      <div class="hud-row"><span>Text:</span> <strong id="hudText">#0f172a</strong></div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       UPLOAD HOLDINGS MODAL
+       Drag-and-drop or file-picker for CSV / XLSX holdings import
+       ══════════════════════════════════════════════════════════════════ -->
+  <div class="meridian-modal-overlay" id="uploadHoldingsModal" style="display:none; z-index:9100;">
+    <div class="meridian-modal-box" style="width:520px; max-width:96vw;">
+
+      <div class="modal-header" style="display:flex; align-items:center; justify-content:space-between; padding:16px 22px;">
+        <div>
+          <h3 style="margin:0; font-size:15px; font-weight:700;">📂 Import Holdings</h3>
+          <p style="margin:4px 0 0; font-size:12px; color:var(--text-muted);">Upload a CSV or Excel file to replace your holdings data</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseUploadModal" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted);">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding:20px 22px;">
+
+        <!-- Drop Zone -->
+        <div id="uploadDropZone"
+             style="border:2px dashed var(--border-medium); border-radius:10px; padding:36px 20px;
+                    text-align:center; cursor:pointer; transition:all 0.2s;
+                    background:var(--bg-surface); position:relative;"
+             onclick="document.getElementById('uploadFileInput').click()">
+          <input type="file" id="uploadFileInput" accept=".csv,.xlsx,.xls"
+                 style="display:none; position:absolute; inset:0; opacity:0; cursor:pointer;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5"
+               style="margin:0 auto 10px; display:block;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p id="uploadDropText" style="margin:0; font-size:14px; font-weight:600; color:var(--text-secondary);">Click or drag &amp; drop your file here</p>
+          <p style="margin:6px 0 0; font-size:11px; color:var(--text-muted);">Accepts .csv · .xlsx · .xls</p>
+        </div>
+
+        <!-- Selected file preview -->
+        <div id="uploadFilePreview" style="display:none; margin-top:12px; padding:10px 14px;
+             background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:8px;
+             display:none; align-items:center; gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-indigo)" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <div style="flex:1; min-width:0;">
+            <div id="uploadFileName" style="font-size:13px; font-weight:600; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">filename.csv</div>
+            <div id="uploadFileSize" style="font-size:11px; color:var(--text-muted);">0 KB</div>
+          </div>
+          <button onclick="clearUploadFile()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;padding:2px 6px;">✕</button>
+        </div>
+
+        <!-- Result / Status panel -->
+        <div id="uploadResultPanel" style="display:none; margin-top:12px; padding:12px 14px;
+             border-radius:8px; font-size:13px;"></div>
+
+        <!-- Template download notice -->
+        <div style="margin-top:14px; padding:12px 14px; background:rgba(37,99,235,0.06);
+                    border:1px solid rgba(37,99,235,0.2); border-radius:8px; font-size:12px;
+                    color:var(--text-secondary);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong style="color:var(--text-primary);">⚡ Simple Minimal Format</strong>
+            <a href="/api/download-template" download="holdings_template.csv"
+               style="color:var(--accent-indigo); text-decoration:underline; font-weight:700;"
+               id="downloadTemplateLink">📥 Download Minimal Template</a>
+          </div>
+          <div style="font-size:11.5px; line-height:1.5; color:var(--text-muted);">
+            Only <strong>Symbol</strong> and <strong>Quantity</strong> are required! Invested amounts, market values, gains, lot IDs, sectors, and currencies are automatically calculated for you.
+          </div>
+        </div>
+
+        <!-- Minimal columns preview -->
+        <details style="margin-top:10px;">
+          <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; font-weight:600;">Supported Columns (All rest auto-calculated)</summary>
+          <div style="margin-top:6px; font-size:11.5px; color:var(--text-secondary); line-height:1.7;
+                      padding:10px 12px; background:var(--bg-surface); border-radius:6px;">
+            <div><strong>Symbol</strong> · Ticker or AMFI code (e.g. <code>RELIANCE</code>, <code>AAPL</code>, <code>122639</code>)</div>
+            <div><strong>Quantity</strong> · Number of shares or units (e.g. <code>10</code>)</div>
+            <div><strong>Buy Price</strong> <em>(optional)</em> · Average purchase cost per unit</div>
+            <div><strong>Asset Type</strong> <em>(optional)</em> · <code>Stocks</code>, <code>Mutual Fund</code>, <code>US Stocks</code>, <code>Bonds</code>, <code>ETF</code>, <code>REIT</code></div>
+            <div><strong>Buy Date</strong> <em>(optional)</em> · Date of purchase (e.g. <code>2024-01-15</code>)</div>
+            <div><strong>Broker</strong> <em>(optional)</em> · Account/Broker name (e.g. <code>Zerodha</code>)</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="modal-footer" style="padding:14px 22px; display:flex; align-items:center; justify-content:space-between;
+                                       border-top:1px solid var(--border-subtle);">
+        <span id="uploadStatusText" style="font-size:12px; color:var(--text-muted);">Select a file to begin</span>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="action-btn btn-outline" id="btnCancelUpload">Cancel</button>
+          <button type="button" class="action-btn btn-primary" id="btnConfirmUpload" disabled
+                  style="min-width:120px;">Upload &amp; Import</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meridian-toast-container" id="toastContainer"></div>
+
+  <script src="seed_data.js"></script>
+  <script src="app.js?v=2.2"></script>
+</body>
+</html>
