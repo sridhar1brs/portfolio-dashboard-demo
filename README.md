@@ -8,6 +8,21 @@ An institutional-grade, multi-currency portfolio command center designed for act
 
 ---
 
+## 📸 User Interface & Previews
+
+### Executive Command Cockpit
+![Executive Command Center](docs/screenshots/executive_dashboard.png)
+
+### Multi-Asset Holdings Matrix & Tax-Lot Inspector
+![Holdings Matrix](docs/screenshots/holdings_matrix.png)
+
+### Minimal Drag-and-Drop Importer & Template Engine
+<p align="center">
+  <img src="docs/screenshots/import_modal.png" width="85%" alt="Import Holdings Modal" />
+</p>
+
+---
+
 ## ⚡ Highlights & Key Capabilities
 
 - **📂 Drag-and-Drop Import**: Directly upload your holdings via `.csv` or `.xlsx` from the browser. Automatically generates Lot IDs, calculates invested amounts, and normalizes columns. Includes a pre-configured template download.

@@ -782,7 +782,7 @@
     // Categories in executive order
     const CATEGORY_DEFINITIONS = [
       { id: 'cat_stocks', title: '📈 Indian Equities (Stocks)', filter: h => h.assetType === 'Stocks' },
-      { id: 'cat_us', title: '🌐 US Equities (RSU & ESPP)', filter: h => h.assetType === 'US Stocks' },
+      { id: 'cat_us', title: '🌐 US & Global Equities (NASDAQ)', filter: h => h.assetType === 'US Stocks' },
       { id: 'cat_reit', title: '🏢 REITs & InvITs', filter: h => h.assetType === 'REIT / InvIT' },
       { id: 'cat_bonds', title: '🛡️ Fixed Income & Bonds', filter: h => h.assetType === 'Bonds' },
       { id: 'cat_mf', title: '📊 Mutual Funds & Liquid Funds', filter: h => h.assetType === 'Mutual Fund' },
